@@ -1,0 +1,954 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>React SDK Manager - 交互式演示</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+        
+        .app-container {
+            min-height: 100vh;
+            padding: 20px;
+            transition: all 0.3s ease;
+        }
+        
+        .main-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+            animation: fadeInUp 0.8s ease-out;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 60px 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="rgba(255,255,255,0.05)"/><circle cx="75" cy="75" r="1" fill="rgba(255,255,255,0.03)"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+            opacity: 0.3;
+        }
+        
+        .header h1 {
+            margin: 0;
+            font-size: 3.5rem;
+            font-weight: 800;
+            position: relative;
+            z-index: 1;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .header p {
+            margin: 15px 0 0 0;
+            font-size: 1.4rem;
+            opacity: 0.95;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .content {
+            padding: 40px;
+        }
+        
+        .section-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #2d3748;
+            margin: 0 0 30px 0;
+            text-align: center;
+            position: relative;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 2px;
+        }
+        
+        .plugin-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+        
+        .plugin-card {
+            background: white;
+            border: none;
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .plugin-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .plugin-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.12);
+        }
+        
+        .plugin-card h4 {
+            margin: 0 0 20px 0;
+            color: #2d3748;
+            font-size: 1.4rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .plugin-card p {
+            color: #64748b;
+            margin: 0 0 20px 0;
+            font-size: 1rem;
+        }
+        
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            margin: 6px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            text-transform: none;
+        }
+        
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+        }
+        
+        .btn:hover::before {
+            left: 100%;
+        }
+        
+        .btn:active {
+            transform: translateY(0);
+        }
+        
+        .btn:disabled {
+            background: #e2e8f0;
+            color: #94a3b8;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .btn-success { 
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%); 
+        }
+        .btn-success:hover { 
+            box-shadow: 0 8px 25px rgba(16, 185, 129, 0.3);
+        }
+        
+        .btn-danger { 
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%); 
+        }
+        .btn-danger:hover { 
+            box-shadow: 0 8px 25px rgba(239, 68, 68, 0.3);
+        }
+        
+        .btn-warning { 
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); 
+            color: white;
+        }
+        .btn-warning:hover { 
+            box-shadow: 0 8px 25px rgba(245, 158, 11, 0.3);
+        }
+        
+        .counter-display {
+            font-size: 3rem;
+            font-weight: 800;
+            text-align: center;
+            margin: 25px 0;
+            padding: 30px;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            border-radius: 16px;
+            color: #2d3748;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .counter-display::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-left: 12px;
+            gap: 6px;
+        }
+        
+        .status-enabled {
+            background: #dcfce7;
+            color: #166534;
+        }
+        
+        .status-enabled::before {
+            content: '●';
+            color: #10b981;
+        }
+        
+        .status-disabled {
+            background: #fef2f2;
+            color: #991b1b;
+        }
+        
+        .status-disabled::before {
+            content: '●';
+            color: #ef4444;
+        }
+        
+        .theme-selector {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .theme-btn {
+            padding: 12px 20px;
+            border-radius: 12px;
+            border: 2px solid transparent;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .theme-btn.active {
+            border-color: #667eea;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.2);
+        }
+        
+        .user-card {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 15px 0;
+            border-left: 4px solid #667eea;
+        }
+        
+        .user-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .plugin-manager-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background: #f8fafc;
+            border-radius: 12px;
+            margin: 8px 0;
+            transition: all 0.3s ease;
+        }
+        
+        .plugin-manager-item:hover {
+            background: #e2e8f0;
+            transform: translateX(5px);
+        }
+        
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .info-item {
+            text-align: center;
+            padding: 15px;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            border-radius: 12px;
+            border-top: 3px solid #667eea;
+        }
+        
+        .info-label {
+            font-size: 12px;
+            color: #64748b;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .info-value {
+            font-size: 16px;
+            font-weight: 700;
+            color: #2d3748;
+            margin-top: 5px;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 80px 40px;
+            color: white;
+        }
+        
+        .loading h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+        
+        .loading-spinner {
+            width: 60px;
+            height: 60px;
+            border: 4px solid rgba(255,255,255,0.3);
+            border-top: 4px solid white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 30px auto;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 40px;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            color: #64748b;
+            font-size: 14px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        @keyframes fadeInUp {
+            0% {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .header {
+                padding: 40px 20px;
+            }
+            
+            .header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+            
+            .plugin-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .plugin-card {
+                padding: 20px;
+            }
+            
+            .theme-selector {
+                justify-content: center;
+            }
+            
+            .info-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        /* 主题样式 */
+        .theme-light { 
+            background: rgba(255, 255, 255, 0.95);
+        }
+        
+        .theme-dark { 
+            background: rgba(26, 32, 44, 0.95);
+            color: #e2e8f0;
+        }
+        
+        .theme-dark .plugin-card {
+            background: #2d3748;
+            color: #e2e8f0;
+        }
+        
+        .theme-dark .section-title {
+            color: #e2e8f0;
+        }
+        
+        .theme-dark .counter-display {
+            background: linear-gradient(135deg, #2d3748 0%, #4a5568 100%);
+            color: #e2e8f0;
+        }
+        
+        .theme-blue { 
+            background: rgba(219, 234, 254, 0.95);
+        }
+        
+        .theme-blue .plugin-card {
+            background: rgba(147, 197, 253, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect, useContext, createContext } = React;
+
+        // Mock SDK Implementation for Demo
+        const SDKContext = createContext(null);
+
+        // Mock plugin creation
+        const createPlugin = (config) => ({
+            ...config,
+            enabled: config.enabled !== false,
+            id: Math.random().toString(36).substr(2, 9)
+        });
+
+        // Mock SDK Provider
+        const SDKProvider = ({ children, config }) => {
+            const [state, setState] = useState(config.initialState || {});
+            const [plugins, setPlugins] = useState(new Map());
+            const [initialized, setInitialized] = useState(false);
+            const [pluginUpdateTrigger, setPluginUpdateTrigger] = useState(0); // 添加插件更新触发器
+
+            useEffect(() => {
+                setTimeout(() => setInitialized(true), 1500);
+            }, []);
+
+            const sdk = {
+                state: {
+                    getState: () => state,
+                    setState: (updater) => {
+                        setState(prev => typeof updater === 'function' ? updater(prev) : { ...prev, ...updater });
+                    }
+                },
+                plugins: {
+                    register: (plugin) => {
+                        setPlugins(prev => new Map(prev).set(plugin.name, plugin));
+                        setPluginUpdateTrigger(prev => prev + 1); // 触发更新
+                        return Promise.resolve();
+                    },
+                    get: (name) => plugins.get(name),
+                    getAll: () => Array.from(plugins.values()),
+                    enable: (name) => {
+                        setPlugins(prev => {
+                            const newMap = new Map(prev);
+                            const plugin = newMap.get(name);
+                            if (plugin) {
+                                newMap.set(name, { ...plugin, enabled: true });
+                                console.log(`✅ 插件 "${name}" 已启用`);
+                            }
+                            return newMap;
+                        });
+                        setPluginUpdateTrigger(prev => prev + 1); // 触发更新
+                        return Promise.resolve();
+                    },
+                    disable: (name) => {
+                        setPlugins(prev => {
+                            const newMap = new Map(prev);
+                            const plugin = newMap.get(name);
+                            if (plugin) {
+                                newMap.set(name, { ...plugin, enabled: false });
+                                console.log(`❌ 插件 "${name}" 已禁用`);
+                            }
+                            return newMap;
+                        });
+                        setPluginUpdateTrigger(prev => prev + 1); // 触发更新
+                        return Promise.resolve();
+                    }
+                },
+                getConfig: () => config,
+                initialized,
+                pluginUpdateTrigger // 暴露更新触发器
+            };
+
+            return React.createElement(SDKContext.Provider, { value: sdk }, children);
+        };
+
+        // Mock hooks
+        const useSDK = () => {
+            const sdk = useContext(SDKContext);
+            if (!sdk) throw new Error('useSDK must be used within SDKProvider');
+            return sdk;
+        };
+
+        const useSDKState = () => {
+            const sdk = useSDK();
+            return [sdk.state.getState(), sdk.state.setState];
+        };
+
+        // 主题插件
+        const ThemePlugin = createPlugin({
+            name: 'theme-plugin',
+            version: '1.0.0',
+            component: () => {
+                const [state, setState] = useSDKState();
+                
+                const themes = [
+                    { key: 'light', name: '浅色主题', color: '#ffffff' },
+                    { key: 'dark', name: '深色主题', color: '#2d3748' },
+                    { key: 'blue', name: '蓝色主题', color: '#3b82f6' }
+                ];
+                const currentTheme = state.theme || 'light';
+
+                return React.createElement('div', { className: 'plugin-card' },
+                    React.createElement('h4', null, '🎨 主题控制器'),
+                    React.createElement('p', null, `当前主题：${themes.find(t => t.key === currentTheme)?.name}`),
+                    React.createElement('div', { className: 'theme-selector' },
+                        themes.map(theme => 
+                            React.createElement('button', {
+                                key: theme.key,
+                                className: `theme-btn ${currentTheme === theme.key ? 'active btn' : 'btn'}`,
+                                onClick: () => setState(prev => ({ ...prev, theme: theme.key })),
+                                style: { 
+                                    background: currentTheme === theme.key ? 
+                                        'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' : 
+                                        theme.color,
+                                    color: theme.key === 'light' && currentTheme !== theme.key ? '#2d3748' : 'white'
+                                }
+                            }, theme.name)
+                        )
+                    )
+                );
+            }
+        });
+
+        // 计数器插件
+        const CounterPlugin = createPlugin({
+            name: 'counter-plugin',
+            version: '1.0.0',
+            component: () => {
+                const [state, setState] = useSDKState();
+                const count = state.count || 0;
+
+                const increment = () => setState(prev => ({ ...prev, count: (prev.count || 0) + 1 }));
+                const decrement = () => setState(prev => ({ ...prev, count: Math.max(0, (prev.count || 0) - 1) }));
+                const reset = () => setState(prev => ({ ...prev, count: 0 }));
+
+                const getAchievement = (count) => {
+                    if (count >= 100) return '🏆 百步登天';
+                    if (count >= 50) return '🥉 半百里程';
+                    if (count >= 20) return '🌟 小有成就';
+                    if (count >= 10) return '🎯 初露锋芒';
+                    return count > 0 ? '🚀 开始计数' : '👋 点击开始';
+                };
+
+                return React.createElement('div', { className: 'plugin-card' },
+                    React.createElement('h4', null, '🔢 智能计数器'),
+                    React.createElement('div', { className: 'counter-display' }, 
+                        React.createElement('div', null, `计数：${count}`),
+                        React.createElement('div', { style: { fontSize: '1rem', marginTop: '10px', opacity: 0.8 } }, getAchievement(count))
+                    ),
+                    React.createElement('div', { style: { display: 'flex', gap: '10px', justifyContent: 'center', flexWrap: 'wrap' } },
+                        React.createElement('button', { 
+                            className: 'btn btn-danger', 
+                            onClick: decrement,
+                            disabled: count <= 0
+                        }, '➖ 减少'),
+                        React.createElement('button', { 
+                            className: 'btn btn-warning', 
+                            onClick: reset,
+                            disabled: count === 0
+                        }, '🔄 重置'),
+                        React.createElement('button', { className: 'btn btn-success', onClick: increment }, '➕ 增加')
+                    )
+                );
+            }
+        });
+
+        // 用户管理插件
+        const UserPlugin = createPlugin({
+            name: 'user-plugin',
+            version: '1.0.0',
+            component: () => {
+                const [state, setState] = useSDKState();
+                const [loading, setLoading] = useState(false);
+                
+                const users = [
+                    { id: 1, name: '张小明', role: '管理员', avatar: '👨‍💼', desc: '系统管理员，拥有全部权限' },
+                    { id: 2, name: '李小红', role: '编辑', avatar: '👩‍💻', desc: '内容编辑，负责日常维护' },
+                    { id: 3, name: '王小强', role: '访客', avatar: '👤', desc: '普通用户，基础查看权限' }
+                ];
+
+                const login = async (user) => {
+                    setLoading(true);
+                    await new Promise(resolve => setTimeout(resolve, 1200));
+                    setState(prev => ({ ...prev, user }));
+                    setLoading(false);
+                };
+
+                const logout = () => {
+                    setState(prev => ({ ...prev, user: null }));
+                };
+
+                return React.createElement('div', { className: 'plugin-card' },
+                    React.createElement('h4', null, '👤 用户管理系统'),
+                    state.user ? 
+                        React.createElement('div', { className: 'user-card' },
+                            React.createElement('div', { style: { display: 'flex', alignItems: 'center', gap: '15px', marginBottom: '15px' } },
+                                React.createElement('span', { style: { fontSize: '2rem' } }, state.user.avatar),
+                                React.createElement('div', null,
+                                    React.createElement('div', { style: { fontSize: '1.2rem', fontWeight: '600', color: '#2d3748' } }, `欢迎，${state.user.name}！`),
+                                    React.createElement('div', { style: { fontSize: '0.9rem', color: '#64748b' } }, `角色：${state.user.role}`),
+                                    React.createElement('div', { style: { fontSize: '0.8rem', color: '#94a3b8', marginTop: '5px' } }, state.user.desc)
+                                )
+                            ),
+                            React.createElement('button', { className: 'btn btn-danger', onClick: logout }, '🚪 退出登录')
+                        ) :
+                        React.createElement('div', null,
+                            React.createElement('p', { style: { textAlign: 'center', marginBottom: '20px' } }, '选择一个用户身份进行登录：'),
+                            React.createElement('div', { className: 'user-list' },
+                                users.map(user =>
+                                    React.createElement('button', {
+                                        key: user.id,
+                                        className: 'btn btn-success',
+                                        onClick: () => login(user),
+                                        disabled: loading,
+                                        style: { 
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            gap: '12px',
+                                            padding: '15px 20px',
+                                            textAlign: 'left',
+                                            width: '100%',
+                                            justifyContent: 'flex-start'
+                                        }
+                                    }, 
+                                        React.createElement('span', { style: { fontSize: '1.5rem' } }, user.avatar),
+                                        React.createElement('div', null,
+                                            React.createElement('div', { style: { fontWeight: '600' } }, loading ? '正在登录...' : user.name),
+                                            React.createElement('div', { style: { fontSize: '0.8rem', opacity: 0.8 } }, user.role)
+                                        )
+                                    )
+                                )
+                            )
+                        )
+                );
+            }
+        });
+
+        // 插件管理器组件
+        const PluginManagerComponent = () => {
+            const sdk = useSDK();
+            const [plugins, setPlugins] = useState([]);
+
+            useEffect(() => {
+                setPlugins(sdk.plugins.getAll());
+            }, [sdk, sdk.pluginUpdateTrigger]); // 监听插件更新触发器
+
+            const togglePlugin = async (pluginName) => {
+                const plugin = sdk.plugins.get(pluginName);
+                if (plugin.enabled) {
+                    await sdk.plugins.disable(pluginName);
+                } else {
+                    await sdk.plugins.enable(pluginName);
+                }
+                // 移除手动更新，让useEffect处理
+            };
+
+            const getPluginDisplayName = (name) => {
+                const names = {
+                    'theme-plugin': '🎨 主题控制器',
+                    'counter-plugin': '🔢 智能计数器',
+                    'user-plugin': '👤 用户管理系统'
+                };
+                return names[name] || name;
+            };
+
+            return React.createElement('div', { className: 'plugin-card' },
+                React.createElement('h4', null, '⚙️ 插件管理中心'),
+                React.createElement('p', null, '实时启用或禁用系统插件：'),
+                plugins.map(plugin =>
+                    React.createElement('div', { 
+                        key: plugin.name,
+                        className: 'plugin-manager-item'
+                    },
+                        React.createElement('div', null,
+                            React.createElement('span', { style: { fontWeight: '600' } }, getPluginDisplayName(plugin.name)),
+                            React.createElement('span', { 
+                                className: plugin.enabled ? 'status-badge status-enabled' : 'status-badge status-disabled' 
+                            }, plugin.enabled ? '已启用' : '已禁用')
+                        ),
+                        React.createElement('button', {
+                            className: plugin.enabled ? 'btn btn-danger' : 'btn btn-success',
+                            onClick: () => togglePlugin(plugin.name),
+                            style: { minWidth: '80px' }
+                        }, plugin.enabled ? '禁用' : '启用')
+                    )
+                )
+            );
+        };
+
+        // 插件渲染器
+        const PluginRenderer = ({ pluginName }) => {
+            const sdk = useSDK();
+            const [plugin, setPlugin] = useState(null);
+
+            // 监听插件状态变化
+            useEffect(() => {
+                setPlugin(sdk.plugins.get(pluginName));
+            }, [sdk, sdk.pluginUpdateTrigger, pluginName]);
+
+            if (!plugin || !plugin.enabled) {
+                return React.createElement('div', { 
+                    className: 'plugin-card',
+                    style: { 
+                        opacity: 0.6, 
+                        border: '2px dashed #e2e8f0',
+                        background: '#f8fafc',
+                        transition: 'all 0.3s ease' // 添加过渡动画
+                    }
+                },
+                    React.createElement('h4', { style: { color: '#94a3b8' } }, '插件未启用'),
+                    React.createElement('p', { style: { textAlign: 'center', color: '#64748b' } }, 
+                        `插件 "${pluginName}" 已被禁用或未找到`
+                    ),
+                    React.createElement('div', { style: { textAlign: 'center' } },
+                        React.createElement('span', { style: { fontSize: '2rem', opacity: 0.5 } }, '🔌')
+                    )
+                );
+            }
+
+            return React.createElement('div', { 
+                style: { transition: 'all 0.3s ease' } // 添加过渡动画
+            }, React.createElement(plugin.component));
+        };
+
+        // SDK 信息面板
+        const SDKInfo = () => {
+            const sdk = useSDK();
+            const [state] = useSDKState();
+            const [showDetails, setShowDetails] = useState(false);
+            const [plugins, setPlugins] = useState([]);
+
+            // 监听插件状态变化
+            useEffect(() => {
+                setPlugins(sdk.plugins.getAll());
+            }, [sdk, sdk.pluginUpdateTrigger]);
+
+            const getThemeDisplayName = (theme) => {
+                const themes = { light: '浅色', dark: '深色', blue: '蓝色' };
+                return themes[theme] || theme;
+            };
+
+            return React.createElement('div', { className: 'plugin-card' },
+                React.createElement('h4', null, 'ℹ️ 系统信息面板'),
+                React.createElement('div', { className: 'info-grid' },
+                    React.createElement('div', { className: 'info-item' },
+                        React.createElement('div', { className: 'info-label' }, '系统状态'),
+                        React.createElement('div', { className: 'info-value' }, sdk.initialized ? '✅ 运行中' : '⏳ 启动中')
+                    ),
+                    React.createElement('div', { className: 'info-item' },
+                        React.createElement('div', { className: 'info-label' }, '插件数量'),
+                        React.createElement('div', { className: 'info-value' }, `${plugins.filter(p => p.enabled).length}/${plugins.length}`)
+                    ),
+                    React.createElement('div', { className: 'info-item' },
+                        React.createElement('div', { className: 'info-label' }, '当前主题'),
+                        React.createElement('div', { className: 'info-value' }, getThemeDisplayName(state.theme || 'light'))
+                    ),
+                    React.createElement('div', { className: 'info-item' },
+                        React.createElement('div', { className: 'info-label' }, '登录用户'),
+                        React.createElement('div', { className: 'info-value' }, state.user?.name || '未登录')
+                    )
+                ),
+                React.createElement('button', {
+                    className: 'btn',
+                    onClick: () => setShowDetails(!showDetails),
+                    style: { marginTop: '15px', width: '100%' }
+                }, showDetails ? '🔼 隐藏详情' : '🔽 显示详情'),
+                showDetails && React.createElement('div', {
+                    style: { 
+                        background: '#f1f5f9', 
+                        padding: '15px', 
+                        borderRadius: '8px', 
+                        fontSize: '12px',
+                        marginTop: '15px',
+                        maxHeight: '200px',
+                        overflow: 'auto'
+                    }
+                }, React.createElement('pre', null, JSON.stringify(state, null, 2)))
+            );
+        };
+
+        // 主应用组件
+        const App = () => {
+            const sdk = useSDK();
+            const [state] = useSDKState();
+            const [pluginsLoaded, setPluginsLoaded] = useState(false);
+
+            useEffect(() => {
+                if (sdk.initialized) {
+                    Promise.all([
+                        sdk.plugins.register(ThemePlugin),
+                        sdk.plugins.register(CounterPlugin),
+                        sdk.plugins.register(UserPlugin)
+                    ]).then(() => {
+                        setPluginsLoaded(true);
+                    });
+                }
+            }, [sdk.initialized]);
+
+            if (!sdk.initialized || !pluginsLoaded) {
+                return React.createElement('div', { className: 'app-container' },
+                    React.createElement('div', { className: 'loading' },
+                        React.createElement('h2', null, '🚀 React SDK Manager'),
+                        React.createElement('p', null, '正在初始化插件系统...'),
+                        React.createElement('div', { className: 'loading-spinner' })
+                    )
+                );
+            }
+
+            const themeClass = `theme-${state.theme || 'light'}`;
+
+            return React.createElement('div', { className: 'app-container' },
+                React.createElement('div', { className: `main-container ${themeClass}` },
+                    React.createElement('div', { className: 'header' },
+                        React.createElement('h1', null, '🚀 React SDK Manager'),
+                        React.createElement('p', null, '现代化插件管理系统 · 交互式演示')
+                    ),
+                    React.createElement('div', { className: 'content' },
+                        React.createElement('h2', { className: 'section-title' }, '🔌 功能插件'),
+                        React.createElement('div', { className: 'plugin-grid' },
+                            React.createElement(PluginRenderer, { pluginName: 'theme-plugin' }),
+                            React.createElement(PluginRenderer, { pluginName: 'counter-plugin' }),
+                            React.createElement(PluginRenderer, { pluginName: 'user-plugin' })
+                        ),
+                        React.createElement('h2', { className: 'section-title' }, '⚙️ 系统管理'),
+                        React.createElement('div', { className: 'plugin-grid' },
+                            React.createElement(PluginManagerComponent),
+                            React.createElement(SDKInfo)
+                        )
+                    ),
+                    React.createElement('div', { className: 'footer' },
+                        React.createElement('p', null,
+                            React.createElement('strong', null, 'React SDK Manager 演示系统'),
+                            ' | 采用现代化设计理念 · 响应式交互体验'
+                        ),
+                        React.createElement('p', { style: { marginTop: '10px', fontSize: '12px' } },
+                            '💡 提示：打开浏览器控制台可查看详细日志信息'
+                        )
+                    )
+                )
+            );
+        };
+
+        // 初始化应用
+        const config = {
+            name: 'React SDK Manager 演示',
+            version: '2.0.0',
+            debug: true,
+            initialState: {
+                theme: 'light',
+                count: 0,
+                user: null
+            }
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(
+            React.createElement(SDKProvider, { config },
+                React.createElement(App)
+            )
+        );
+
+        // 控制台欢迎信息
+        console.log('🎉 React SDK Manager 演示已加载完成！');
+        console.log('📌 体验功能：');
+        console.log('  🎨 主题切换 - 体验不同的视觉风格');
+        console.log('  🔢 智能计数 - 观察成就系统变化');
+        console.log('  👤 用户管理 - 模拟不同角色登录');
+        console.log('  ⚙️ 插件管理 - 实时启用/禁用功能（已修复状态同步bug）');
+        console.log('💡 打开 React DevTools 查看组件结构');
+        console.log('🔧 插件状态变化将在此显示实时日志');
+    </script>
+</body>
+</html> 
