@@ -218,7 +218,7 @@ export const useSDKInfo = () => {
 
 ```typescript
 import React from 'react';
-import { SDKProvider, useSDK } from '@react-sdk/manager';
+import { SDKProvider, useSDK } from '@webscript/react-sdk-manager';
 
 const App = () => {
   const config = {
