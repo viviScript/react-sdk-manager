@@ -75,10 +75,10 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/username/react-sdk-manager.git"
+    "url": "git+https://github.com/viviScript/react-sdk-manager.git"
   },
   "bugs": {
-    "url": "https://github.com/username/react-sdk-manager/issues"
+    "url": "https://github.com/viviScript/react-sdk-manager/issues"
   },
-  "homepage": "https://github.com/username/react-sdk-manager#readme"
+  "homepage": "https://github.com/viviScript/react-sdk-manager#readme"
 }
