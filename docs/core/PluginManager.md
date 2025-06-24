@@ -202,7 +202,7 @@ const hasCycle = (pluginName: string): boolean => {
 
 ### 基本插件管理
 ```typescript
-import { PluginManager } from '@react-sdk/manager';
+import { PluginManager } from '@webscript/react-sdk-manager';
 
 const pluginManager = new PluginManager();
 

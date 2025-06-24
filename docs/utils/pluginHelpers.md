@@ -37,7 +37,7 @@ export function createPlugin(config: {
 
 **基本插件创建**:
 ```typescript
-import { createPlugin } from '@react-sdk/manager';
+import { createPlugin } from '@webscript/react-sdk-manager';
 
 const simplePlugin = createPlugin({
   name: 'simple-plugin',
@@ -110,7 +110,7 @@ export function validatePlugin(plugin: Plugin): string[]
 
 #### 使用示例
 ```typescript
-import { validatePlugin } from '@react-sdk/manager';
+import { validatePlugin } from '@webscript/react-sdk-manager';
 
 const plugin = createPlugin({
   name: '', // 错误：名称为空
@@ -154,7 +154,7 @@ export function checkPluginCompatibility(
 
 #### 使用示例
 ```typescript
-import { checkPluginCompatibility } from '@react-sdk/manager';
+import { checkPluginCompatibility } from '@webscript/react-sdk-manager';
 
 const availablePlugins = [
   createPlugin({ name: 'auth-plugin', version: '1.0.0' }),
@@ -189,7 +189,7 @@ export function sortPluginsByDependencies(plugins: Plugin[]): Plugin[]
 
 #### 使用示例
 ```typescript
-import { sortPluginsByDependencies } from '@react-sdk/manager';
+import { sortPluginsByDependencies } from '@webscript/react-sdk-manager';
 
 const plugins = [
   createPlugin({ name: 'app-plugin', version: '1.0.0', dependencies: ['auth-plugin'] }),
@@ -228,7 +228,7 @@ export function getPluginDependencyChain(
 
 #### 使用示例
 ```typescript
-import { getPluginDependencyChain } from '@react-sdk/manager';
+import { getPluginDependencyChain } from '@webscript/react-sdk-manager';
 
 const plugins = [
   createPlugin({ name: 'app', version: '1.0.0', dependencies: ['ui', 'data'] }),
@@ -262,7 +262,7 @@ export function canUnloadPlugin(
 
 #### 使用示例
 ```typescript
-import { canUnloadPlugin } from '@react-sdk/manager';
+import { canUnloadPlugin } from '@webscript/react-sdk-manager';
 
 const plugins = [
   createPlugin({ name: 'base-plugin', version: '1.0.0' }),

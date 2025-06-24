@@ -100,7 +100,7 @@ BaseComponent    withSDK等      compose()      Enhanced
 ### 1. 插件开发
 
 ```typescript
-import { createPlugin, validatePlugin } from '@react-sdk/manager';
+import { createPlugin, validatePlugin } from '@webscript/react-sdk-manager';
 
 // 创建插件
 const myPlugin = createPlugin({
@@ -148,7 +148,7 @@ import {
   WithSDKProps,
   WithStateProps,
   WithPluginsProps
-} from '@react-sdk/manager';
+} from '@webscript/react-sdk-manager';
 
 // 基础组件
 interface DashboardProps {
@@ -207,7 +207,7 @@ import {
   sortPluginsByDependencies, 
   checkPluginCompatibility,
   getPluginDependencyChain 
-} from '@react-sdk/manager';
+} from '@webscript/react-sdk-manager';
 
 const plugins = [
   createPlugin({ name: 'app', version: '1.0.0', dependencies: ['ui', 'auth'] }),
@@ -243,7 +243,7 @@ console.log('App dependencies:', dependencyChain);
 ### 1. 插件工厂模式
 
 ```typescript
-import { createPlugin } from '@react-sdk/manager';
+import { createPlugin } from '@webscript/react-sdk-manager';
 
 // 创建插件工厂
 class WidgetPluginFactory {
@@ -285,7 +285,7 @@ const stockWidget = factory.createWidget('stock', {
 ### 2. 自定义HOC组合
 
 ```typescript
-import { compose, withSDK, withState, withPlugins } from '@react-sdk/manager';
+import { compose, withSDK, withState, withPlugins } from '@webscript/react-sdk-manager';
 
 // 创建常用的HOC组合
 const withFullSDKAccess = compose(
@@ -318,7 +318,7 @@ import {
   createPlugin, 
   checkPluginCompatibility, 
   canUnloadPlugin 
-} from '@react-sdk/manager';
+} from '@webscript/react-sdk-manager';
 
 // 条件插件加载器
 class ConditionalPluginLoader {
@@ -376,7 +376,7 @@ await loader.loadPlugin({
 ### 4. 智能HOC选择
 
 ```typescript
-import { withSDK, withState, withPlugins, compose } from '@react-sdk/manager';
+import { withSDK, withState, withPlugins, compose } from '@webscript/react-sdk-manager';
 
 // 智能HOC选择器
 const createSmartHOC = (requirements: {
@@ -414,7 +414,7 @@ const SimpleComponent = createSmartHOC({})(BaseSimpleComponent); // 不添加任
 ### 1. 插件懒加载
 
 ```typescript
-import { createPlugin } from '@react-sdk/manager';
+import { createPlugin } from '@webscript/react-sdk-manager';
 
 // 懒加载插件创建器
 const createLazyPlugin = (config: any) => {
@@ -440,7 +440,7 @@ const lazyPlugin = createLazyPlugin({
 
 ```typescript
 import React from 'react';
-import { withSDK, WithSDKProps } from '@react-sdk/manager';
+import { withSDK, WithSDKProps } from '@webscript/react-sdk-manager';
 
 // 优化的HOC实现
 const withOptimizedSDK = <P extends object>(
@@ -476,7 +476,7 @@ const withSelectiveState = <T, P extends object>(
 ### 1. 插件工具测试
 
 ```typescript
-import { createPlugin, validatePlugin, sortPluginsByDependencies } from '@react-sdk/manager';
+import { createPlugin, validatePlugin, sortPluginsByDependencies } from '@webscript/react-sdk-manager';
 
 describe('Plugin Helpers', () => {
   test('createPlugin creates valid plugin', () => {
@@ -518,7 +518,7 @@ describe('Plugin Helpers', () => {
 ```typescript
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import { withSDK, SDKProvider } from '@react-sdk/manager';
+import { withSDK, SDKProvider } from '@webscript/react-sdk-manager';
 
 describe('HOC Tests', () => {
   const TestComponent = ({ sdk, title }: { sdk: any; title: string }) => (

@@ -11,7 +11,7 @@
 ### 📦 安装
 
 ```bash
-npm install @react-sdk/manager
+npm install @webscript/react-sdk-manager
 ```
 
 ### ⚡ 30秒快速设置
@@ -20,7 +20,7 @@ npm install @react-sdk/manager
 
 ```tsx
 import React from 'react';
-import { SDKProvider } from '@react-sdk/manager';
+import { SDKProvider } from '@webscript/react-sdk-manager';
 
 function App() {
   const config = {
@@ -40,7 +40,7 @@ function App() {
 #### 2. 创建你的第一个插件
 
 ```tsx
-import { createPlugin, useSDKState } from '@react-sdk/manager';
+import { createPlugin, useSDKState } from '@webscript/react-sdk-manager';
 
 const CounterPlugin = createPlugin({
   name: 'counter-plugin',
@@ -65,7 +65,7 @@ const CounterPlugin = createPlugin({
 #### 3. 注册并渲染插件
 
 ```tsx
-import { useSDK, PluginRenderer } from '@react-sdk/manager';
+import { useSDK, PluginRenderer } from '@webscript/react-sdk-manager';
 
 function MyComponent() {
   const sdk = useSDK();
@@ -127,7 +127,7 @@ const DependentPlugin = createPlugin({
 
 #### 插件管理界面
 ```tsx
-import { PluginManagerComponent } from '@react-sdk/manager';
+import { PluginManagerComponent } from '@webscript/react-sdk-manager';
 
 function AdminPanel() {
   return (
@@ -201,7 +201,7 @@ Get up and running with React SDK Manager in just a few minutes!
 ### 📦 Installation
 
 ```bash
-npm install @react-sdk/manager
+npm install @webscript/react-sdk-manager
 ```
 
 ### ⚡ 30-Second Setup
@@ -210,7 +210,7 @@ npm install @react-sdk/manager
 
 ```tsx
 import React from 'react';
-import { SDKProvider } from '@react-sdk/manager';
+import { SDKProvider } from '@webscript/react-sdk-manager';
 
 function App() {
   const config = {
@@ -230,7 +230,7 @@ function App() {
 #### 2. Create Your First Plugin
 
 ```tsx
-import { createPlugin, useSDKState } from '@react-sdk/manager';
+import { createPlugin, useSDKState } from '@webscript/react-sdk-manager';
 
 const CounterPlugin = createPlugin({
   name: 'counter-plugin',
@@ -255,7 +255,7 @@ const CounterPlugin = createPlugin({
 #### 3. Register and Render Plugin
 
 ```tsx
-import { useSDK, PluginRenderer } from '@react-sdk/manager';
+import { useSDK, PluginRenderer } from '@webscript/react-sdk-manager';
 
 function MyComponent() {
   const sdk = useSDK();
@@ -317,7 +317,7 @@ const DependentPlugin = createPlugin({
 
 #### Plugin Management UI
 ```tsx
-import { PluginManagerComponent } from '@react-sdk/manager';
+import { PluginManagerComponent } from '@webscript/react-sdk-manager';
 
 function AdminPanel() {
   return (

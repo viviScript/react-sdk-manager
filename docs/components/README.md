@@ -111,7 +111,7 @@ App
 
 ```typescript
 import React from 'react';
-import { SDKProvider, useSDK } from '@react-sdk/manager';
+import { SDKProvider, useSDK } from '@webscript/react-sdk-manager';
 
 // 1. 配置SDK
 const sdkConfig = {
@@ -196,7 +196,7 @@ const UserProfile = () => {
 ### 3. 插件渲染
 
 ```typescript
-import { PluginRenderer, PluginList, PluginManager } from '@react-sdk/manager';
+import { PluginRenderer, PluginList, PluginManager } from '@webscript/react-sdk-manager';
 
 const PluginDashboard = () => {
   return (
@@ -462,7 +462,7 @@ const useDebouncedState = (delay = 300) => {
 
 ```typescript
 import { render, screen } from '@testing-library/react';
-import { SDKProvider } from '@react-sdk/manager';
+import { SDKProvider } from '@webscript/react-sdk-manager';
 
 // 测试工具函数
 const renderWithSDK = (component, config = {}) => {

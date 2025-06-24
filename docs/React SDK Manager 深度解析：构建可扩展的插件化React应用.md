@@ -72,7 +72,7 @@ graph TB
 
 ```typescript
 import React from 'react';
-import { SDKProvider, useSDK, useSDKState, createPlugin, PluginRenderer } from '@react-sdk/manager';
+import { SDKProvider, useSDK, useSDKState, createPlugin, PluginRenderer } from '@webscript/react-sdk-manager';
 
 // 1. 创建计数器插件
 const CounterPlugin = createPlugin({
@@ -188,7 +188,7 @@ export default BasicExample;
 
 ```typescript
 import React from 'react';
-import { SDKProvider, useSDK } from '@react-sdk/manager';
+import { SDKProvider, useSDK } from '@webscript/react-sdk-manager';
 
 // 1. 配置SDK
 const sdkConfig = {
@@ -246,7 +246,7 @@ const MyApplication = () => {
 React SDK Manager 提供了强大的状态管理能力，支持响应式更新和持久化：
 
 ```typescript
-import { useSDKState } from '@react-sdk/manager';
+import { useSDKState } from '@webscript/react-sdk-manager';
 
 const UserProfile = () => {
   const [state, setState] = useSDKState();
@@ -300,7 +300,7 @@ const UserProfile = () => {
 React SDK Manager 的插件系统是其最强大的特性之一。让我们看看如何创建一个完整的插件：
 
 ```typescript
-import { createPlugin } from '@react-sdk/manager';
+import { createPlugin } from '@webscript/react-sdk-manager';
 
 const weatherPlugin = createPlugin({
   name: 'weather-widget',
@@ -393,7 +393,7 @@ import {
   sortPluginsByDependencies, 
   checkPluginCompatibility,
   validatePlugin 
-} from '@react-sdk/manager';
+} from '@webscript/react-sdk-manager';
 
 // 创建一组相互依赖的插件
 const plugins = [
@@ -462,7 +462,7 @@ for (const plugin of sortedPlugins) {
 使用插件渲染组件可以安全地渲染插件UI：
 
 ```typescript
-import { PluginRenderer, PluginList, PluginManager } from '@react-sdk/manager';
+import { PluginRenderer, PluginList, PluginManager } from '@webscript/react-sdk-manager';
 
 const Dashboard = () => {
   const [selectedLocation, setSelectedLocation] = React.useState('Beijing');
@@ -530,7 +530,7 @@ import {
   WithStateProps,
   WithPluginsProps,
   WithLifecycleProps
-} from '@react-sdk/manager';
+} from '@webscript/react-sdk-manager';
 
 // 定义组件Props
 interface AdminPanelProps {
@@ -669,7 +669,7 @@ const SystemMonitor = withFullSDKAccess(BaseSystemMonitor);
 ### 条件HOC
 
 ```typescript
-import { withPluginGuard } from '@react-sdk/manager';
+import { withPluginGuard } from '@webscript/react-sdk-manager';
 
 // 只有当特定插件启用时才显示的组件
 const PremiumFeatures = ({ features }) => (
@@ -711,7 +711,7 @@ const SecurePremiumFeatures = withPluginGuard(
 React SDK Manager 提供了完整的生命周期管理系统，让你能够精确控制应用的各个阶段：
 
 ```typescript
-import { useLifecycle } from '@react-sdk/manager';
+import { useLifecycle } from '@webscript/react-sdk-manager';
 
 const SystemMonitor = () => {
   const lifecycle = useLifecycle();
@@ -825,7 +825,7 @@ import {
   withPlugins,
   withLifecycle,
   compose
-} from '@react-sdk/manager';
+} from '@webscript/react-sdk-manager';
 
 // 1. 用户认证插件
 const AuthPlugin = createPlugin({
@@ -1324,7 +1324,7 @@ const EnterpriseDashboard = () => {
 React SDK Manager 支持插件懒加载，仅在需要时加载插件资源：
 
 ```typescript
-import { createPlugin } from '@react-sdk/manager';
+import { createPlugin } from '@webscript/react-sdk-manager';
 
 // 创建懒加载插件
 const createLazyPlugin = (config) => {
@@ -1359,7 +1359,7 @@ const PluginArea = () => (
 使用选择器函数避免不必要的重新渲染：
 
 ```typescript
-import { useSDKStateSelector } from '@react-sdk/manager';
+import { useSDKStateSelector } from '@webscript/react-sdk-manager';
 
 const UserProfile = () => {
   // 只订阅user对象的变化
@@ -1381,7 +1381,7 @@ const UserProfile = () => {
 使用批量更新API减少渲染次数：
 
 ```typescript
-import { batchStateUpdates } from '@react-sdk/manager';
+import { batchStateUpdates } from '@webscript/react-sdk-manager';
 
 const updateUserProfile = async (userData) => {
   // 批量更新多个状态

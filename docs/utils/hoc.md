@@ -30,7 +30,7 @@ export interface WithSDKProps {
 **基本使用**:
 ```typescript
 import React from 'react';
-import { withSDK, WithSDKProps } from '@react-sdk/manager';
+import { withSDK, WithSDKProps } from '@webscript/react-sdk-manager';
 
 interface MyComponentProps {
   title: string;
@@ -114,7 +114,7 @@ export interface WithPluginsProps {
 
 ```typescript
 import React from 'react';
-import { withPlugins, WithPluginsProps } from '@react-sdk/manager';
+import { withPlugins, WithPluginsProps } from '@webscript/react-sdk-manager';
 
 interface PluginControllerProps {
   category: string;
@@ -198,7 +198,7 @@ export interface WithStateProps<T = any> {
 
 ```typescript
 import React from 'react';
-import { withState, WithStateProps } from '@react-sdk/manager';
+import { withState, WithStateProps } from '@webscript/react-sdk-manager';
 
 interface UserProfileProps {
   showDetails: boolean;
@@ -287,7 +287,7 @@ export interface WithLifecycleProps {
 
 ```typescript
 import React from 'react';
-import { withLifecycle, WithLifecycleProps } from '@react-sdk/manager';
+import { withLifecycle, WithLifecycleProps } from '@webscript/react-sdk-manager';
 
 interface EventMonitorProps {
   eventTypes: string[];
@@ -376,7 +376,7 @@ export function withPluginGuard<P extends object>(
 
 ```typescript
 import React from 'react';
-import { withPluginGuard } from '@react-sdk/manager';
+import { withPluginGuard } from '@webscript/react-sdk-manager';
 
 interface PremiumFeatureProps {
   feature: string;
@@ -443,7 +443,7 @@ import {
   WithStateProps,
   WithPluginsProps,
   WithLifecycleProps
-} from '@react-sdk/manager';
+} from '@webscript/react-sdk-manager';
 
 interface ComplexComponentProps {
   title: string;

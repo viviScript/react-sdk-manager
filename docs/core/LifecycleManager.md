@@ -195,7 +195,7 @@ await Promise.all(promises);
 
 ### 基本使用
 ```typescript
-import { LifecycleManager } from '@react-sdk/manager';
+import { LifecycleManager } from '@webscript/react-sdk-manager';
 
 const lifecycleManager = new LifecycleManager(true); // 启用调试模式
 

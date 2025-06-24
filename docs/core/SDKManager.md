@@ -163,7 +163,7 @@ this.lifecycle.on('error', (error: Error, context?: string) => {
 
 ### 基本使用
 ```typescript
-import { SDKManager } from '@react-sdk/manager';
+import { SDKManager } from '@webscript/react-sdk-manager';
 
 const sdk = new SDKManager({
   name: 'My Application SDK',
@@ -189,7 +189,7 @@ await sdk.destroy();
 
 ### 工厂函数使用
 ```typescript
-import { createSDKManager } from '@react-sdk/manager';
+import { createSDKManager } from '@webscript/react-sdk-manager';
 
 const sdk = createSDKManager({
   name: 'My App',

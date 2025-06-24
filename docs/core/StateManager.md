@@ -167,7 +167,7 @@ private notifyListeners(state: T, prevState: T): void {
 
 ### 基本使用
 ```typescript
-import { StateManager } from '@react-sdk/manager';
+import { StateManager } from '@webscript/react-sdk-manager';
 
 // 创建状态管理器
 const stateManager = new StateManager({
@@ -231,7 +231,7 @@ stateManager.setState({ theme: 'blue' }); // ✗ 类型错误
 
 ### 工厂函数使用
 ```typescript
-import { createStateManager } from '@react-sdk/manager';
+import { createStateManager } from '@webscript/react-sdk-manager';
 
 const stateManager = createStateManager({
   initialState: { count: 0 },

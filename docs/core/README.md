@@ -165,7 +165,7 @@ LifecycleManager.emit('pluginEnabled')
 
 ### 基本初始化
 ```typescript
-import { SDKManager } from '@react-sdk/manager';
+import { SDKManager } from '@webscript/react-sdk-manager';
 
 const sdk = new SDKManager({
   name: 'My App SDK',
@@ -180,7 +180,7 @@ await sdk.initialize();
 
 ### 插件开发
 ```typescript
-import { createPlugin } from '@react-sdk/manager';
+import { createPlugin } from '@webscript/react-sdk-manager';
 
 const myPlugin = createPlugin({
   name: 'my-plugin',
