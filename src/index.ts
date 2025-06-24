@@ -52,4 +52,4 @@ export {
   withLifecycle, 
   withPluginGuard,
   compose
-} from './utils/hoc'; 
+} from './utils/hoc';
